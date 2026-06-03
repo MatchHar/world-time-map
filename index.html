@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive world time zone map for comparing dates and times across major regions."
+    />
+    <title>World Time Map</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=20260602-citymap" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace" aria-label="World time zone converter">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">World Time Map</p>
+            <h1>Time zones, dates, and meeting windows on one map.</h1>
+          </div>
+          <div class="live-clock" aria-live="polite">
+            <span id="local-time">--:--</span>
+            <small id="local-zone">Local time</small>
+          </div>
+        </header>
+
+        <section class="control-strip" aria-label="Time conversion controls">
+          <label>
+            Base region
+            <select id="base-region"></select>
+          </label>
+          <label>
+            Base date
+            <input id="base-date" type="date" />
+          </label>
+          <label>
+            Base time
+            <input id="base-time" type="time" step="60" />
+          </label>
+          <div class="button-row day-buttons">
+            <button id="prev-day-button" type="button">-1 day</button>
+            <button id="next-day-button" type="button">+1 day</button>
+          </div>
+          <div class="button-row">
+            <button id="now-button" type="button">Now</button>
+            <button id="copy-button" type="button">Copy link</button>
+          </div>
+        </section>
+
+        <section class="map-panel" aria-label="Interactive world map">
+          <div class="map-toolbar">
+            <label class="search-box">
+              <span>Search</span>
+              <input id="search" type="search" placeholder="City, country, or zone" list="city-suggestions" />
+              <datalist id="city-suggestions"></datalist>
+            </label>
+            <label class="custom-zone">
+              <span>Add time zone</span>
+              <select id="custom-zone"></select>
+            </label>
+            <label>
+              <span>Map layer</span>
+              <select id="map-style">
+                <option value="map" selected>Map</option>
+                <option value="satellite">Satellite</option>
+              </select>
+            </label>
+            <label>
+              <span>Time format</span>
+              <select id="hour-mode">
+                <option value="12" selected>12-hour</option>
+                <option value="24">24-hour</option>
+              </select>
+            </label>
+            <label>
+              <span>Sort cards</span>
+              <select id="sort-mode">
+                <option value="map" selected>Map order</option>
+                <option value="time">Local time</option>
+                <option value="offset">UTC offset</option>
+                <option value="city">City name</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="map-wrap">
+            <div class="tile-map" role="img" aria-label="World map with selectable city time zones">
+              <div id="map-tiles" class="map-tiles"></div>
+              <div id="zone-labels" class="zone-labels" aria-hidden="true"></div>
+              <div id="markers" class="markers"></div>
+              <div class="map-attribution" id="map-attribution"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-grid">
+          <article class="selected-card" aria-live="polite">
+            <span class="card-label">Selected base</span>
+            <h2 id="selected-title">--</h2>
+            <p id="selected-time">--</p>
+            <dl>
+              <div>
+                <dt>UTC offset</dt>
+                <dd id="selected-offset">--</dd>
+              </div>
+              <div>
+                <dt>Day phase</dt>
+                <dd id="selected-phase">--</dd>
+              </div>
+              <div>
+                <dt>UTC time</dt>
+                <dd id="selected-utc">--</dd>
+              </div>
+              <div>
+                <dt>Compared regions</dt>
+                <dd id="selected-count">--</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="planner">
+            <div class="planner-head">
+              <span class="card-label">Meeting planner</span>
+              <label>
+                Duration
+                <select id="duration">
+                  <option value="30">30 min</option>
+                  <option value="60" selected>1 hour</option>
+                  <option value="90">1.5 hours</option>
+                  <option value="120">2 hours</option>
+                </select>
+              </label>
+            </div>
+            <div id="availability" class="availability"></div>
+          </article>
+        </section>
+
+        <section class="regions-section" aria-label="Converted regional times">
+          <div class="section-head">
+            <h2>Regional times</h2>
+            <p id="result-count">0 regions</p>
+          </div>
+          <div id="regions" class="regions-grid"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js?v=20260602-citymap"></script>
+  </body>
+</html>
